@@ -8,23 +8,23 @@ export default function Inicio() {
     <>
       <ListaServicios />
 
-      <section id="video-promocional">
-        <h2>Conoce nuestras instalaciones</h2>
-        <div className="contenedor-video">
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/sksm_mfbdA0"
-            title="Instalaciones Veterinaria San Marcos"
-            allowFullScreen
-          />
+      <section id="video-promocional" className="mb-4">
+        <h2 className="text-vet mb-3">Conoce nuestras instalaciones</h2>
+        <div className="bg-white p-2 rounded shadow-sm">
+          <div className="ratio ratio-16x9">
+            <iframe
+              src="https://www.youtube.com/embed/sksm_mfbdA0"
+              title="Instalaciones Veterinaria San Marcos"
+              allowFullScreen
+            />
+          </div>
         </div>
       </section>
 
       <section id="ubicacion">
-        <h2>Encuentranos en Rancagua</h2>
+        <h2 className="text-vet mb-3">Encuentranos en Rancagua</h2>
         <p>Atencion de lunes a sabado, esta es nuestra ubicacion exacta:</p>
-        <div className="contenedor-mapa">
+        <div className="bg-white p-2 rounded shadow-sm">
           <iframe
             src={URL_MAPA}
             width="100%"
