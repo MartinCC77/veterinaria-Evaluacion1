@@ -1,9 +1,9 @@
 export default function CampoFormulario({ id, etiqueta, error, children }) {
   return (
-    <div className="grupo-campo">
-      <label htmlFor={id}>{etiqueta}</label>
+    <div className="mb-3">
+      <label htmlFor={id} className="form-label fw-semibold">{etiqueta}</label>
       {children}
-      <span className="mensaje-error">{error}</span>
+      {error && <div className="invalid-feedback d-block fw-bold">{error}</div>}
     </div>
   )
 }
