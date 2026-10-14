@@ -5,13 +5,13 @@ import Footer from '../organisms/Footer'
 export default function LayoutPrincipal() {
   return (
     <>
-      <header className="bg-vet text-white text-center py-4">
-        <h1 className="h2 mb-1">Veterinaria San Marcos</h1>
-        <p className="mb-0">Cuidado ideal para tu mascota</p>
+      <header>
+        <h1>Veterinaria San Marcos</h1>
+        <p>Cuidado ideal para tu mascota</p>
         <NavBar />
       </header>
 
-      <main className="container my-4">
+      <main>
         <Outlet />
       </main>
 
