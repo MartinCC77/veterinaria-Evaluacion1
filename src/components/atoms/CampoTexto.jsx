@@ -1,9 +1,40 @@
 export default function CampoTexto({
-  id, value, onChange, type = 'text', placeholder, autoComplete, multilinea = false, error = false,
+  id,
+  valor,
+  onCambio,
+  tipo = 'text', 
+  placeholder = '',
+  invalido = false, 
+  minimo, 
+  autoComplete,
 }) {
-  const clase = `form-control ${error ? 'is-invalid' : ''}`
-  const props = { id, name: id, value, onChange, placeholder, className: clase }
+  const clases = `form-control${invalido ? ' is-invalid' : ''}`
 
-  if (multilinea) return <textarea rows="3" {...props} />
-  return <input type={type} autoComplete={autoComplete} {...props} />
+  const manejarCambio = (evento) => onCambio(evento.target.value)
+
+  if (tipo === 'textarea') {
+    return (
+      <textarea
+        id={id}
+        className={clases}
+        rows={3}
+        value={valor}
+        onChange={manejarCambio}
+        placeholder={placeholder}
+      />
+    )
+  }
+
+  return (
+    <input
+      id={id}
+      type={tipo}
+      className={clases}
+      value={valor}
+      onChange={manejarCambio}
+      placeholder={placeholder}
+      min={minimo}
+      autoComplete={autoComplete}
+    />
+  )
 }
