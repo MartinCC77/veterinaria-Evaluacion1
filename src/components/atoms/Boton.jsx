@@ -1,6 +1,15 @@
-export default function Boton({ children, type = 'button', id, onClick }) {
+export default function Boton({
+  children,
+  variante = 'primary', 
+  tipo = 'button', 
+  onClick,
+  deshabilitado = false,
+  bloque = false, 
+}) {
+  const clases = `btn btn-${variante}${bloque ? ' w-100' : ''}`
+
   return (
-    <button type={type} id={id} onClick={onClick} className="btn btn-vet w-100 py-2">
+    <button type={tipo} className={clases} onClick={onClick} disabled={deshabilitado}>
       {children}
     </button>
   )

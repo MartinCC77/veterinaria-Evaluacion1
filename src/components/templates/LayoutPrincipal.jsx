@@ -1,21 +1,24 @@
-import { Outlet } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import NavBar from '../organisms/NavBar'
 import Footer from '../organisms/Footer'
 
-export default function LayoutPrincipal() {
+const ENLACES = [
+  { ruta: '/', texto: 'Inicio' },
+  { ruta: '/servicios', texto: 'Servicios' },
+  { ruta: '/solicitar-cita', texto: 'Solicitar cita' },
+  { ruta: '/mis-citas', texto: 'Mis citas' },
+]
+
+export default function LayoutPrincipal({ children }) {
+  const navigate = useNavigate()
+  const ubicacion = useLocation()
+
   return (
-    <>
-      <header>
-        <h1>Veterinaria San Marcos</h1>
-        <p>Cuidado ideal para tu mascota</p>
-        <NavBar />
-      </header>
-
-      <main>
-        <Outlet />
-      </main>
-
-      <Footer />
-    </>
+    <div className="d-flex flex-column min-vh-100">
+      <NavBar enlaces={ENLACES} rutaActual={ubicacion.pathname} onNavegar={navigate} />
+      {/* children es el contenido que cada página pone dentro de <LayoutPrincipal> */}
+      <main className="container my-4 flex-grow-1">{children}</main>
+      <Footer onNavegar={navigate} />
+    </div>
   )
 }
