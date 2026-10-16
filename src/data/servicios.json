@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "codigo": "CON-001",
+    "categoria": "Consulta",
+    "nombre": "Consulta general",
+    "especie": "Todas",
+    "duracion": 30,
+    "precio": 18000,
+    "observaciones": "Examen físico y diagnóstico. La urgencia fuera de horario suma $10.000.",
+    "imagen": "/Imagenes/Consulta.png"
+  },
+  {
+    "id": 2,
+    "codigo": "PRE-001",
+    "categoria": "Prevención",
+    "nombre": "Vacunación",
+    "especie": "Perro y gato",
+    "duracion": 20,
+    "precio": 15000,
+    "observaciones": "Incluye registro en el carnet de vacunas.",
+    "imagen": "/Imagenes/Vacunas.jpg"
+  },
+  {
+    "id": 3,
+    "codigo": "PRE-002",
+    "categoria": "Prevención",
+    "nombre": "Desparasitación",
+    "especie": "Todas",
+    "duracion": 15,
+    "precio": 9000,
+    "observaciones": "Interna y externa, según el peso de la mascota.",
+    "imagen": "/Imagenes/Vacunas.jpg"
+  },
+  {
+    "id": 4,
+    "codigo": "CIR-001",
+    "categoria": "Cirugía",
+    "nombre": "Cirugía menor",
+    "especie": "Perro y gato",
+    "duracion": 90,
+    "precio": 60000,
+    "observaciones": "Procedimientos quirúrgicos en pabellón equipado.",
+    "imagen": "/Imagenes/Paveyon.jpg"
+  },
+  {
+    "id": 5,
+    "codigo": "CON-002",
+    "categoria": "Consulta",
+    "nombre": "Control de peso",
+    "especie": "Perro y gato",
+    "duracion": 30,
+    "precio": 12000,
+    "observaciones": "Evaluación nutricional y plan de alimentación.",
+    "imagen": "/Imagenes/Consulta.png"
+  }
+]
