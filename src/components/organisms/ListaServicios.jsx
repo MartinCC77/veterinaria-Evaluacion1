@@ -1,15 +1,19 @@
 import TarjetaServicio from '../molecules/TarjetaServicio'
-import servicios from '../../data/servicios'
 
-export default function ListaServicios() {
+export default function ListaServicios({ servicios, onSolicitar }) {
+
+  if (servicios.length === 0) {
+    return <p className="text-muted">No hay servicios que coincidan con tu búsqueda.</p>
+  }
+
   return (
-    <section id="servicios">
-      <h2>Nuestros servicios medicos</h2>
-      <div className="grilla-servicios">
-        {servicios.map((s) => (
-          <TarjetaServicio key={s.id} {...s} />
-        ))}
-      </div>
-    </section>
+
+    <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      {servicios.map((s) => (
+        <div className="col" key={s.id}>
+          <TarjetaServicio servicio={s} onSolicitar={onSolicitar} />
+        </div>
+      ))}
+    </div>
   )
 }
