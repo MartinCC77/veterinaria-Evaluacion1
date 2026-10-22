@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router-dom'
 import LayoutPrincipal from '../components/templates/LayoutPrincipal'
 import ListaServicios from '../components/organisms/ListaServicios'
+import ListaCategorias from '../components/organisms/ListaCategorias'
 import Boton from '../components/atoms/Boton'
 import { useServicios } from '../context/ServiciosContext'
 import { useTituloPagina } from '../hooks/useTituloPagina'
+import { contarPorCategoria } from '../utils/filtros'
 
 export default function Inicio() {
   const navigate = useNavigate()
   const { servicios } = useServicios()
-
   useTituloPagina('Inicio')
 
   return (
@@ -22,9 +23,22 @@ export default function Inicio() {
       </section>
 
       <section className="mb-5">
+        <h2 className="text-primary mb-3">Categorías</h2>
+        {}
+        <ListaCategorias
+          categorias={contarPorCategoria(servicios)}
+          onVer={(nombre) => navigate(`/categorias/${encodeURIComponent(nombre)}`)}
+        />
+      </section>
+
+      <section className="mb-5">
         <h2 className="text-primary mb-3">Nuestros servicios médicos</h2>
         {}
-        <ListaServicios servicios={servicios.slice(0, 3)} onSolicitar={(s) => navigate(`/solicitar-cita/${s.id}`)} />
+        <ListaServicios
+          servicios={servicios.slice(0, 3)}
+          onSolicitar={(s) => navigate(`/solicitar-cita/${s.id}`)}
+          onVerDetalle={(s) => navigate(`/servicios/${s.id}`)}
+        />
       </section>
 
       <section className="mb-5">

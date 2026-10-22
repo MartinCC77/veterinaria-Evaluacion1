@@ -12,7 +12,7 @@ export default function NavBar({ enlaces, rutaActual, onNavegar }) {
   }
 
   return (
-    <nav className="navbar navbar-expand-md navbar-dark bg-primary">
+    <nav className="navbar navbar-expand-xl navbar-dark bg-primary">
       <div className="container">
         <a className="navbar-brand fw-bold" href="/" onClick={(e) => ir(e, '/')}>
           Veterinaria San Marcos

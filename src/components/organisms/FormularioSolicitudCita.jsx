@@ -2,6 +2,7 @@ import { useState } from 'react'
 import CampoFormulario from '../molecules/CampoFormulario'
 import SelectorFechaHora from '../molecules/SelectorFechaHora'
 import Boton from '../atoms/Boton'
+import { calcularPrecioCita, formatearPrecio, obtenerPrecioVigente } from '../../utils/precios'
 import {
   validarNombreDueno,
   validarCorreo,
@@ -42,7 +43,7 @@ export default function FormularioSolicitudCita({ servicios, servicioInicial = '
 
   const servicio = servicios.find((s) => String(s.id) === valores.servicioId)
   const admiteUrgencia = servicio?.categoria === 'Consulta'
-  const precioFinal = servicio ? calcularPrecioCita(servicio.precio, admiteUrgencia && valores.urgencia) : 0
+  const precioFinal = servicio ? calcularPrecioCita(obtenerPrecioVigente(servicio), admiteUrgencia && valores.urgencia) : 0
 
  
   function validar() {

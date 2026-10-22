@@ -62,3 +62,11 @@ export function validarClave(valor) {
   }
   return ''
 }
+
+
+export function validarMensaje(valor) {
+  if (valor.trim().length < 10) {
+    return 'Escribe un mensaje de al menos 10 caracteres.'
+  }
+  return ''
+}

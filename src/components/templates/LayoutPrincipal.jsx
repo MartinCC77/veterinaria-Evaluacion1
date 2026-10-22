@@ -5,6 +5,11 @@ import Footer from '../organisms/Footer'
 const ENLACES = [
   { ruta: '/', texto: 'Inicio' },
   { ruta: '/servicios', texto: 'Servicios' },
+  { ruta: '/categorias', texto: 'Categorías' },
+  { ruta: '/ofertas', texto: 'Ofertas' },
+  { ruta: '/blog', texto: 'Blog' },
+  { ruta: '/nosotros', texto: 'Nosotros' },
+  { ruta: '/contacto', texto: 'Contacto' },
   { ruta: '/solicitar-cita', texto: 'Solicitar cita' },
   { ruta: '/mis-citas', texto: 'Mis citas' },
 ]

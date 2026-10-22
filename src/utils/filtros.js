@@ -22,3 +22,15 @@ export function fechaHoy() {
   const dia = String(ahora.getDate()).padStart(2, '0')
   return `${ahora.getFullYear()}-${mes}-${dia}`
 }
+
+
+export function obtenerOfertas(servicios) {
+  return servicios.filter((s) => s.oferta)
+}
+
+export function contarPorCategoria(servicios) {
+  return obtenerCategorias(servicios).map((nombre) => ({
+    nombre,
+    cantidad: servicios.filter((s) => s.categoria === nombre).length,
+  }))
+}

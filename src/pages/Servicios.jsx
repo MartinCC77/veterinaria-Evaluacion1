@@ -10,7 +10,6 @@ import { filtrarServicios, obtenerCategorias } from '../utils/filtros'
 export default function Servicios() {
   const navigate = useNavigate()
   const { servicios } = useServicios()
-
   const [texto, setTexto] = useState('')
   const [categoria, setCategoria] = useState('')
   useTituloPagina('Servicios')
@@ -27,7 +26,11 @@ export default function Servicios() {
         onCambioCategoria={setCategoria}
         categorias={obtenerCategorias(servicios)}
       />
-      <ListaServicios servicios={visibles} onSolicitar={(s) => navigate(`/solicitar-cita/${s.id}`)} />
+      <ListaServicios
+        servicios={visibles}
+        onSolicitar={(s) => navigate(`/solicitar-cita/${s.id}`)}
+        onVerDetalle={(s) => navigate(`/servicios/${s.id}`)}
+      />
     </LayoutPrincipal>
   )
 }
