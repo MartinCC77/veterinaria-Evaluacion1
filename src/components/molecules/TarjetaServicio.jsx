@@ -11,17 +11,17 @@ export default function TarjetaServicio({ servicio, onSolicitar, onVerDetalle })
         <h3 className="h5 card-title">{servicio.nombre}</h3>
         <p className="mb-2">
           <EtiquetaEspecie especie={servicio.especie} />{' '}
-          {}
+          
           {servicio.oferta && <EtiquetaOferta porcentaje={calcularPorcentajeDescuento(servicio)} />}
         </p>
         <p className="card-text text-muted small flex-grow-1">{servicio.observaciones}</p>
         <p className="fw-bold mb-3">
-          {}
+          
           {servicio.oferta && <s className="text-muted fw-normal me-2">{formatearPrecio(servicio.precio)}</s>}
           {formatearPrecio(obtenerPrecioVigente(servicio))} · {servicio.duracion} min
         </p>
         <div className="d-flex gap-2">
-          {}
+          
           {onVerDetalle && (
             <Boton variante="outline-primary" onClick={() => onVerDetalle(servicio)}>
               Ver detalle

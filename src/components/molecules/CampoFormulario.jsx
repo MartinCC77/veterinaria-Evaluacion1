@@ -34,7 +34,6 @@ export default function CampoFormulario({
         />
       )}
 
-      {}
       {hayError && (
         <div className="invalid-feedback d-block" role="alert">
           {error}

@@ -18,7 +18,7 @@ export default function NavBar({ enlaces, rutaActual, onNavegar }) {
           Veterinaria San Marcos
         </a>
 
-        {}
+        
         <button
           className="navbar-toggler"
           type="button"
@@ -29,7 +29,7 @@ export default function NavBar({ enlaces, rutaActual, onNavegar }) {
           <span className="navbar-toggler-icon" />
         </button>
 
-        {}
+        
         <div className={`collapse navbar-collapse${abierto ? ' show' : ''}`}>
           <ul className="navbar-nav ms-auto">
             {enlaces.map((e) => (

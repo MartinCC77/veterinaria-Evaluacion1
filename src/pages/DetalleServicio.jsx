@@ -48,7 +48,6 @@ export default function DetalleServicio() {
           </p>
           <div className="d-flex gap-2">
             <Boton onClick={() => navigate(`/solicitar-cita/${servicio.id}`)}>Solicitar cita</Boton>
-            {}
             <Boton variante="outline-primary" onClick={() => navigate(-1)}>
               Volver
             </Boton>

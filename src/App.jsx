@@ -33,11 +33,9 @@ export default function App() {
             <Route path="/blog/:id" element={<DetalleBlog />} />
             <Route path="/nosotros" element={<Nosotros />} />
             <Route path="/contacto" element={<Contacto />} />
-            {}
             <Route path="/solicitar-cita/:servicioId?" element={<SolicitarCita />} />
             <Route path="/cita-confirmada/:id" element={<CitaConfirmada />} />
             <Route path="/mis-citas" element={<MisCitas />} />
-            {}
             <Route path="*" element={<NoEncontrada />} />
           </Routes>
         </CitasProvider>

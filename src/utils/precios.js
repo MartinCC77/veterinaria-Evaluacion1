@@ -20,6 +20,5 @@ export function calcularPorcentajeDescuento(servicio) {
   if (!servicio.oferta) {
     return 0
   }
-  // Math.round redondea al entero más cercano
   return Math.round((1 - servicio.precioOferta / servicio.precio) * 100)
 }

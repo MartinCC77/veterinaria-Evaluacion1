@@ -11,7 +11,6 @@ import {
   validarMotivo,
   validarFecha,
 } from '../../utils/validaciones'
-import { calcularPrecioCita, formatearPrecio } from '../../utils/precios'
 import { fechaHoy } from '../../utils/filtros'
 
 const ESPECIES = [

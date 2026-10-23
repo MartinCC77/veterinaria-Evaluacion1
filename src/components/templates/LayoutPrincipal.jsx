@@ -22,7 +22,7 @@ export default function LayoutPrincipal({ children }) {
   return (
     <div className="d-flex flex-column min-vh-100">
       <NavBar enlaces={ENLACES} rutaActual={ubicacion.pathname} onNavegar={navigate} />
-      {}
+      
       <main className="container my-4 flex-grow-1">{children}</main>
       <Footer onNavegar={navigate} />
     </div>

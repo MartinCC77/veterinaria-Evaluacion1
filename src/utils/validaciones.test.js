@@ -8,7 +8,6 @@ import {
   validarClave,
 } from './validaciones'
 
-// Recordatorio: cada regla devuelve un mensaje si el valor es inválido, o '' si está bien.
 
 describe('validarNombreDueno', () => {
   it('rechaza nombres con menos de 3 caracteres', () => {
