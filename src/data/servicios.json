@@ -10,7 +10,7 @@
     "oferta": false,
     "precioOferta": null,
     "observaciones": "Examen físico y diagnóstico. La urgencia fuera de horario suma $10.000.",
-    "imagen": "/Imagenes/Consulta.png"
+    "imagen": "/Imagenes/ConsultaGeneral.jpg"
   },
   {
     "id": 2,
@@ -23,7 +23,7 @@
     "oferta": true,
     "precioOferta": 12000,
     "observaciones": "Incluye registro en el carnet de vacunas.",
-    "imagen": "/Imagenes/Vacunas.jpg"
+    "imagen": "/Imagenes/Vacunacion.jpg"
   },
   {
     "id": 3,
@@ -36,7 +36,7 @@
     "oferta": true,
     "precioOferta": 7000,
     "observaciones": "Interna y externa, según el peso de la mascota.",
-    "imagen": "/Imagenes/Vacunas.jpg"
+    "imagen": "/Imagenes/Desparacitacion.jpg"
   },
   {
     "id": 4,
@@ -49,7 +49,7 @@
     "oferta": false,
     "precioOferta": null,
     "observaciones": "Procedimientos quirúrgicos en pabellón equipado.",
-    "imagen": "/Imagenes/Paveyon.jpg"
+    "imagen": "/Imagenes/Cirujia.jpg"
   },
   {
     "id": 5,
@@ -62,6 +62,6 @@
     "oferta": false,
     "precioOferta": null,
     "observaciones": "Evaluación nutricional y plan de alimentación.",
-    "imagen": "/Imagenes/Consulta.png"
+    "imagen": "/Imagenes/Pesaje.jpg"
   }
 ]
