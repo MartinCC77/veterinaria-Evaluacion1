@@ -41,3 +41,10 @@ export function filtrarCitasDeUsuario(citas, usuario) {
   }
   return citas
 }
+
+export function filtrarCitasPorEstado(citas, estado) {
+  if (estado === '') {
+    return citas
+  }
+  return citas.filter((c) => c.estado === estado)
+}

@@ -1,5 +1,5 @@
-import { filtrarServicios, obtenerCategorias, obtenerOfertas, contarPorCategoria, filtrarCitasDeUsuario } from './filtros'
 import { describe, it, expect } from 'vitest'
+import { filtrarServicios, obtenerCategorias, obtenerOfertas, contarPorCategoria, filtrarCitasDeUsuario, filtrarCitasPorEstado } from './filtros'
 
 const servicios = [
   { id: 1, nombre: 'Consulta general', categoria: 'Consulta', oferta: false },
@@ -67,5 +67,21 @@ describe('filtrarCitasDeUsuario', () => {
 
   it('el personal de la clínica ve todas las citas', () => {
     expect(filtrarCitasDeUsuario(citas, { id: 1, rol: 'administrador' })).toHaveLength(3)
+  })
+})
+
+describe('filtrarCitasPorEstado', () => {
+  const citas = [{ id: 1, estado: 'pendiente' }, { id: 2, estado: 'confirmada' }, { id: 3, estado: 'pendiente' }]
+
+  it('devuelve todas las citas si no hay estado elegido', () => {
+    expect(filtrarCitasPorEstado(citas, '')).toHaveLength(3)
+  })
+
+  it('devuelve solo las citas con ese estado', () => {
+    expect(filtrarCitasPorEstado(citas, 'pendiente').map((c) => c.id)).toEqual([1, 3])
+  })
+
+  it('devuelve una lista vacía si ninguna coincide', () => {
+    expect(filtrarCitasPorEstado(citas, 'cancelada')).toEqual([])
   })
 })

@@ -21,6 +21,11 @@ import Registro from './pages/Registro'
 import AdminDashboard from './pages/AdminDashboard'
 import AdminServicios from './pages/AdminServicios'
 import AdminServicioForm from './pages/AdminServicioForm'
+import AdminCitas from './pages/AdminCitas'
+import AdminCita from './pages/AdminCita'
+import AdminCriticos from './pages/AdminCriticos'
+import AdminReportes from './pages/AdminReportes'
+import AdminPerfil from './pages/AdminPerfil'
 import NoEncontrada from './pages/NoEncontrada'
 
 export default function App() {
@@ -50,6 +55,11 @@ export default function App() {
                 <Route path="/admin/servicios" element={<AdminServicios />} />
                 <Route path="/admin/servicios/nuevo" element={<AdminServicioForm />} />
                 <Route path="/admin/servicios/:id/editar" element={<AdminServicioForm />} />
+                <Route path="/admin/citas" element={<AdminCitas />} />
+                <Route path="/admin/citas/:id" element={<AdminCita />} />
+                <Route path="/admin/criticos" element={<AdminCriticos />} />
+                <Route path="/admin/reportes" element={<AdminReportes />} />
+                <Route path="/admin/perfil" element={<AdminPerfil />} />
                 <Route path="*" element={<NoEncontrada />} />
               </Routes>
             </CitasProvider>

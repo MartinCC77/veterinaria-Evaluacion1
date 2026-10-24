@@ -37,13 +37,19 @@ export function AuthProvider({ children }) {
     }
   }
 
+  function actualizarPerfil(cambios) {
+    const actualizado = usuarioService.actualizarUsuario(usuario.id, cambios)
+    setUsuario(actualizado)
+    return { ok: true }
+  }
+
   function cerrarSesion() {
     sesionService.cerrarSesion()
     setUsuario(null)
   }
 
   return (
-    <AuthContext.Provider value={{ usuario, iniciarSesion, registrar, cerrarSesion }}>
+    <AuthContext.Provider value={{ usuario, iniciarSesion, registrar, actualizarPerfil, cerrarSesion }}>
       {children}
     </AuthContext.Provider>
   )
