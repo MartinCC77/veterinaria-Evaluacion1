@@ -8,6 +8,8 @@ import {
   validarClave,
   validarMensaje,
   validarConfirmacionClave,
+  validarNumeroPositivo,
+  validarPrecioOferta,
 } from './validaciones'
 
 
@@ -82,5 +84,35 @@ describe('validarConfirmacionClave', () => {
 
   it('acepta claves iguales', () => {
     expect(validarConfirmacionClave('secreta1', 'secreta1')).toBe('')
+  })
+})
+
+describe('validarNumeroPositivo', () => {
+  it('rechaza el texto vacío', () => {
+    expect(validarNumeroPositivo('', 'El precio')).toBe('El precio es obligatorio.')
+  })
+
+  it('rechaza texto que no es un número', () => {
+    expect(validarNumeroPositivo('abc', 'El precio')).toContain('mayor que 0')
+  })
+
+  it('rechaza el cero y los negativos', () => {
+    expect(validarNumeroPositivo('0', 'El precio')).not.toBe('')
+    expect(validarNumeroPositivo('-5', 'El precio')).not.toBe('')
+  })
+
+  it('acepta un número positivo', () => {
+    expect(validarNumeroPositivo('15000', 'El precio')).toBe('')
+  })
+})
+
+describe('validarPrecioOferta', () => {
+  it('rechaza una oferta igual o mayor que el precio normal', () => {
+    expect(validarPrecioOferta('15000', '15000')).toContain('menor')
+    expect(validarPrecioOferta('20000', '15000')).toContain('menor')
+  })
+
+  it('acepta una oferta menor que el precio normal', () => {
+    expect(validarPrecioOferta('12000', '15000')).toBe('')
   })
 })

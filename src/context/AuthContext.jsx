@@ -23,7 +23,7 @@ export function AuthProvider({ children }) {
     }
     sesionService.guardarSesion(encontrado.id)
     setUsuario(encontrado)
-    return { ok: true }
+    return { ok: true, usuario: encontrado }
   }
 
   function registrar(datos) {

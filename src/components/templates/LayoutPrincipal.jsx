@@ -1,9 +1,8 @@
-// Plantilla: LayoutPrincipal. Arma la estructura común de las páginas: NavBar + contenido + Footer.
-// Solo las plantillas y las páginas usan el router (useNavigate / useLocation) y la sesión (useAuth).
 import { useNavigate, useLocation } from 'react-router-dom'
 import NavBar from '../organisms/NavBar'
 import Footer from '../organisms/Footer'
 import { useAuth } from '../../context/AuthContext'
+import { esPersonal } from '../../utils/permisos'
 
 const ENLACES = [
   { ruta: '/', texto: 'Inicio' },
@@ -22,6 +21,8 @@ export default function LayoutPrincipal({ children }) {
   const ubicacion = useLocation()
   const { usuario, cerrarSesion } = useAuth()
 
+  const enlaces = esPersonal(usuario) ? [...ENLACES, { ruta: '/admin', texto: 'Panel' }] : ENLACES
+
   function salir() {
     cerrarSesion()
     navigate('/')
@@ -30,7 +31,7 @@ export default function LayoutPrincipal({ children }) {
   return (
     <div className="d-flex flex-column min-vh-100">
       <NavBar
-        enlaces={ENLACES}
+        enlaces={enlaces}
         rutaActual={ubicacion.pathname}
         onNavegar={navigate}
         usuario={usuario}

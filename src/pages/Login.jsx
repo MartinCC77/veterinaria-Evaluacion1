@@ -1,10 +1,10 @@
-// Página: Login (ruta "/login"). Decide qué hacer cuando el formulario avisa que todo está correcto.
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LayoutPrincipal from '../components/templates/LayoutPrincipal'
 import FormularioLogin from '../components/organisms/FormularioLogin'
 import { useAuth } from '../context/AuthContext'
 import { useTituloPagina } from '../hooks/useTituloPagina'
+import { esPersonal } from '../utils/permisos'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -18,7 +18,7 @@ export default function Login() {
       setErrorGeneral(resultado.error)
       return
     }
-    navigate('/')
+    navigate(esPersonal(resultado.usuario) ? '/admin' : '/')
   }
 
   return (
