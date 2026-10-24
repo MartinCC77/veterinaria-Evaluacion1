@@ -6,6 +6,8 @@ import {
   validarFecha,
   validarSeleccion,
   validarClave,
+  validarMensaje,
+  validarConfirmacionClave,
 } from './validaciones'
 
 
@@ -70,5 +72,15 @@ describe('validarSeleccion', () => {
 describe('validarClave', () => {
   it('rechaza claves de menos de 6 caracteres', () => {
     expect(validarClave('12345')).not.toBe('')
+  })
+})
+
+describe('validarConfirmacionClave', () => {
+  it('rechaza claves que no coinciden', () => {
+    expect(validarConfirmacionClave('secreta1', 'secreta2')).toBe('Las claves no coinciden.')
+  })
+
+  it('acepta claves iguales', () => {
+    expect(validarConfirmacionClave('secreta1', 'secreta1')).toBe('')
   })
 })

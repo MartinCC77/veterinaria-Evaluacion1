@@ -34,3 +34,10 @@ export function contarPorCategoria(servicios) {
     cantidad: servicios.filter((s) => s.categoria === nombre).length,
   }))
 }
+
+export function filtrarCitasDeUsuario(citas, usuario) {
+  if (usuario.rol === 'dueno') {
+    return citas.filter((c) => c.usuarioId === usuario.id)
+  }
+  return citas
+}

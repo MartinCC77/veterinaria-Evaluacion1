@@ -20,11 +20,11 @@ const ESPECIES = [
   { valor: 'ave', etiqueta: 'Ave / Otra' },
 ]
 
-export default function FormularioSolicitudCita({ servicios, servicioInicial = '', onEnviar, hoy = fechaHoy() }) {
+export default function FormularioSolicitudCita({ servicios, servicioInicial = '', onEnviar, hoy = fechaHoy(), datosIniciales = {} }) {
 
   const [valores, setValores] = useState({
-    dueno: '',
-    correo: '',
+    dueno: datosIniciales.dueno ?? '',
+    correo: datosIniciales.correo ?? '',
     mascota: '',
     especie: '',
     servicioId: String(servicioInicial),
@@ -117,7 +117,7 @@ export default function FormularioSolicitudCita({ servicios, servicioInicial = '
 
       <CampoFormulario id="motivo" etiqueta="Motivo de la consulta" tipo="textarea" valor={valores.motivo} onCambio={cambiar('motivo')} error={errores.motivo} placeholder="Describa brevemente el motivo de la atención" />
 
-      {}
+      
       {admiteUrgencia && (
         <div className="form-check mb-3">
           <input

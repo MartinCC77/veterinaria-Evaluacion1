@@ -1,5 +1,5 @@
+import { filtrarServicios, obtenerCategorias, obtenerOfertas, contarPorCategoria, filtrarCitasDeUsuario } from './filtros'
 import { describe, it, expect } from 'vitest'
-import { filtrarServicios, obtenerCategorias, obtenerOfertas, contarPorCategoria } from './filtros'
 
 const servicios = [
   { id: 1, nombre: 'Consulta general', categoria: 'Consulta', oferta: false },
@@ -44,5 +44,28 @@ describe('contarPorCategoria', () => {
       { nombre: 'Consulta', cantidad: 1 },
       { nombre: 'Prevención', cantidad: 2 },
     ])
+  })
+})
+
+export function filtrarCitasDeUsuario(citas, usuario) {
+  if (usuario.rol === 'dueno') {
+    return citas.filter((c) => c.usuarioId === usuario.id)
+  }
+  return citas
+}
+
+describe('filtrarCitasDeUsuario', () => {
+  const citas = [
+    { id: 1, usuarioId: 3 },
+    { id: 2, usuarioId: 4 },
+    { id: 3, usuarioId: null },
+  ]
+
+  it('un dueño de mascota ve solo sus citas', () => {
+    expect(filtrarCitasDeUsuario(citas, { id: 3, rol: 'dueno' })).toEqual([citas[0]])
+  })
+
+  it('el personal de la clínica ve todas las citas', () => {
+    expect(filtrarCitasDeUsuario(citas, { id: 1, rol: 'administrador' })).toHaveLength(3)
   })
 })

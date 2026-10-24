@@ -70,3 +70,11 @@ export function validarMensaje(valor) {
   }
   return ''
 }
+
+
+export function validarConfirmacionClave(clave, confirmacion) {
+  if (clave !== confirmacion) {
+    return 'Las claves no coinciden.'
+  }
+  return ''
+}
