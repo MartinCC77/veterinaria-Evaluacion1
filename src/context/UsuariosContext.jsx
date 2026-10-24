@@ -25,8 +25,13 @@ export function UsuariosProvider({ children }) {
   }
 
   function actualizar(id, cambios) {
-    usuarioService.actualizarUsuario(id, cambios)
-    recargar()
+    try {
+      usuarioService.actualizarUsuario(id, cambios)
+      recargar()
+      return { ok: true }
+    } catch (error) {
+      return { ok: false, error: error.message }
+    }
   }
 
   function eliminar(id) {

@@ -48,3 +48,15 @@ export function filtrarCitasPorEstado(citas, estado) {
   }
   return citas.filter((c) => c.estado === estado)
 }
+
+export function resumirCategorias(categorias, servicios) {
+  return categorias.map((nombre) => ({
+    nombre,
+    cantidad: servicios.filter((s) => s.categoria === nombre).length,
+  }))
+}
+
+// citasDelUsuario: las citas pedidas por un usuario (para su historial).
+export function citasDelUsuario(citas, usuarioId) {
+  return citas.filter((c) => c.usuarioId === usuarioId)
+}

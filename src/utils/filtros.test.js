@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { filtrarServicios, obtenerCategorias, obtenerOfertas, contarPorCategoria, filtrarCitasDeUsuario, filtrarCitasPorEstado } from './filtros'
+import { filtrarServicios, obtenerCategorias, obtenerOfertas, contarPorCategoria, filtrarCitasDeUsuario, filtrarCitasPorEstado, resumirCategorias, citasDelUsuario } from './filtros'
 
 const servicios = [
   { id: 1, nombre: 'Consulta general', categoria: 'Consulta', oferta: false },
@@ -47,13 +47,6 @@ describe('contarPorCategoria', () => {
   })
 })
 
-export function filtrarCitasDeUsuario(citas, usuario) {
-  if (usuario.rol === 'dueno') {
-    return citas.filter((c) => c.usuarioId === usuario.id)
-  }
-  return citas
-}
-
 describe('filtrarCitasDeUsuario', () => {
   const citas = [
     { id: 1, usuarioId: 3 },
@@ -83,5 +76,27 @@ describe('filtrarCitasPorEstado', () => {
 
   it('devuelve una lista vacía si ninguna coincide', () => {
     expect(filtrarCitasPorEstado(citas, 'cancelada')).toEqual([])
+  })
+})
+
+describe('resumirCategorias', () => {
+  it('cuenta los servicios de cada categoría, incluso las que no tienen ninguno', () => {
+    const lista = [{ categoria: 'Consulta' }, { categoria: 'Consulta' }]
+    expect(resumirCategorias(['Consulta', 'Cirugía'], lista)).toEqual([
+      { nombre: 'Consulta', cantidad: 2 },
+      { nombre: 'Cirugía', cantidad: 0 },
+    ])
+  })
+})
+
+describe('citasDelUsuario', () => {
+  const citas = [{ id: 1, usuarioId: 3 }, { id: 2, usuarioId: 4 }, { id: 3, usuarioId: 3 }]
+
+  it('devuelve solo las citas de ese usuario', () => {
+    expect(citasDelUsuario(citas, 3).map((c) => c.id)).toEqual([1, 3])
+  })
+
+  it('devuelve una lista vacía si el usuario no tiene citas', () => {
+    expect(citasDelUsuario(citas, 99)).toEqual([])
   })
 })

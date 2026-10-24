@@ -39,6 +39,27 @@ describe('useUsuarios', () => {
     expect(result.current.usuarios).toHaveLength(3)
   })
 
+  it('actualiza un usuario y refleja el cambio en la lista', () => {
+    const { result } = renderHook(() => useUsuarios(), { wrapper })
+
+    act(() => {
+      result.current.actualizar(3, { rol: 'recepcionista' })
+    })
+
+    expect(result.current.usuarios.find((u) => u.id === 3).rol).toBe('recepcionista')
+  })
+
+  it('devuelve un error al actualizar con un correo que ya existe', () => {
+    const { result } = renderHook(() => useUsuarios(), { wrapper })
+
+    let respuesta
+    act(() => {
+      respuesta = result.current.actualizar(3, { correo: 'admin@sanmarcos.cl' })
+    })
+
+    expect(respuesta.ok).toBe(false)
+  })
+
   it('elimina un usuario', () => {
     const { result } = renderHook(() => useUsuarios(), { wrapper })
 

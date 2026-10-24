@@ -32,7 +32,6 @@ export function obtenerUsuario(id) {
 
 export function crearUsuario(datos) {
   const lista = leer()
-
   const correo = datos.correo.trim().toLowerCase()
 
   if (lista.some((u) => u.correo === correo)) {
@@ -40,16 +39,25 @@ export function crearUsuario(datos) {
   }
 
   const nuevoId = Math.max(0, ...lista.map((u) => u.id)) + 1
-
   const nuevo = { rol: 'dueno', ...datos, correo, id: nuevoId }
   guardar([...lista, nuevo])
   return quitarClave(nuevo)
 }
 
 export function actualizarUsuario(id, cambios) {
-  const lista = leer().map((u) => (u.id === id ? { ...u, ...cambios } : u))
-  guardar(lista)
-  const actualizado = lista.find((u) => u.id === id)
+  const lista = leer()
+  const cambiosFinales = { ...cambios }
+
+  if (cambios.correo !== undefined) {
+    cambiosFinales.correo = cambios.correo.trim().toLowerCase()
+    if (lista.some((u) => u.id !== id && u.correo === cambiosFinales.correo)) {
+      throw new Error('Ya existe una cuenta con ese correo')
+    }
+  }
+
+  const nuevaLista = lista.map((u) => (u.id === id ? { ...u, ...cambiosFinales } : u))
+  guardar(nuevaLista)
+  const actualizado = nuevaLista.find((u) => u.id === id)
   return actualizado ? quitarClave(actualizado) : null
 }
 

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { listarUsuarios, crearUsuario, autenticar, quitarClave } from './usuarioService'
+import { listarUsuarios, crearUsuario, actualizarUsuario, autenticar, quitarClave } from './usuarioService'
 
 describe('usuarioService', () => {
   beforeEach(() => {
@@ -33,6 +33,33 @@ describe('usuarioService', () => {
 
   it('lanza un error si el correo ya está registrado', () => {
     expect(() => crearUsuario({ nombre: 'Otro Juan', correo: 'JUAN@correo.cl', clave: 'secreta1' })).toThrow('Ya existe')
+  })
+})
+
+describe('actualizarUsuario', () => {
+  beforeEach(() => {
+    localStorage.clear()
+  })
+
+  it('cambia solo los campos indicados y no devuelve la clave', () => {
+    const actualizado = actualizarUsuario(3, { nombre: 'Juan P. Soto' })
+    expect(actualizado.nombre).toBe('Juan P. Soto')
+    expect(actualizado.correo).toBe('juan@correo.cl')
+    expect(actualizado).not.toHaveProperty('clave')
+  })
+
+  it('permite guardar el mismo correo del propio usuario', () => {
+    expect(() => actualizarUsuario(3, { correo: 'JUAN@correo.cl' })).not.toThrow()
+  })
+
+  it('lanza un error si el correo nuevo ya lo tiene otro usuario', () => {
+    expect(() => actualizarUsuario(3, { correo: 'admin@sanmarcos.cl' })).toThrow('Ya existe')
+  })
+
+  it('la clave nueva sirve para iniciar sesión', () => {
+    actualizarUsuario(3, { clave: 'nueva1234' })
+    expect(autenticar('juan@correo.cl', 'nueva1234')).not.toBeNull()
+    expect(autenticar('juan@correo.cl', 'dueno123')).toBeNull()
   })
 })
 
