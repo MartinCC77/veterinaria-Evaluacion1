@@ -1,36 +1,16 @@
-# Nombre del Equipo
-# Gruopo n4
+# Veterinaria San Marcos – Parcial 2
 
-## Integrantes
-- Martin Cortes (marti.cortesg@duocuc.cl)
-- Christian Montecinos (ch.montecinos@duocuc.cl)
-- Alejandro Naranjo (alej.naranjo@duocuc.cl)
+Aplicación React + Vite con Bootstrap, organizada con Atomic Design.
 
-## Caso
-Level-Up Gamer
-
-## Descripción del caso
-Tienda en línea de artículos para gamers (consolas, accesorios, sillas gamer).
-La aplicación permite iniciar sesión, explorar el catálogo, agregar productos
-al carrito y, para el rol administrador, gestionar el catálogo.
-
-## Estructura del proyecto
-src/
-├── components/
-│   ├── atoms/
-│   ├── molecules/
-│   ├── organisms/
-│   └── templates/
-└── pages/
-
-## Tecnologías
-- React + Vite
-- React Bootstrap
-
-## Cómo ejecutar el proyecto
+## Instalar y ejecutar
 npm install
 npm run dev
 
-## Material complementario
-Carpeta de Drive con documentos del semestre (ERS y otros):
-https://drive.google.com/drive/folders/XXXXXXXXXX
+## Pruebas
+npm run test:run   # ejecuta las pruebas
+npm run test:cov   # reporte de cobertura
+
+## Usuarios de demostración
+- Administrador: admin@sanmarcos.cl / admin123
+- Recepcionista: recepcion@sanmarcos.cl / recep123
+- Dueño de mascota: juan@correo.cl / dueno123
