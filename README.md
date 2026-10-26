@@ -1,5 +1,10 @@
 # Veterinaria San Marcos – Parcial 2
 
+# integrantes:
+-Alejandro Naranjo
+-Christian Montecinos
+-Martin Cortes
+
 Aplicación React + Vite con Bootstrap, organizada con Atomic Design.
 
 ## Instalar y ejecutar
