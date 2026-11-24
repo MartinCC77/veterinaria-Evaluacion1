@@ -9,35 +9,42 @@ const ENLACES_BASE = [
   { ruta: '/mis-citas', texto: 'Mis citas' },
 ]
 
-export default function LayoutPrincipal({ children }) {
+function leerUsuario() {
+  try {
+    const token = localStorage.getItem('token')
+    const usuario = JSON.parse(localStorage.getItem('usuario') || 'null')
+    return token && usuario ? usuario : null
+  } catch {
+    return null
+  }
+}
 
+export default function LayoutPrincipal({ children }) {
   const navigate = useNavigate()
   const ubicacion = useLocation()
 
-  // Se vuelve a leer en cada cambio de ruta, así el menú se actualiza solo
-  const haySesion = !!localStorage.getItem('token')
+  // Se vuelve a leer en cada cambio de ruta
+  const usuario = leerUsuario()
 
-  const enlaces = haySesion
-    ? [
-        ...ENLACES_BASE,
-        { ruta: '/usuarios', texto: 'Usuarios' },
-        { ruta: '/logout', texto: 'Cerrar sesión' },
-      ]
-    : [...ENLACES_BASE, { ruta: '/login', texto: 'Iniciar sesión' }]
+  const enlaces = usuario
+    ? [...ENLACES_BASE, { ruta: '/usuarios', texto: 'Usuarios' }]
+    : ENLACES_BASE
 
-  function manejarNavegacion(ruta) {
-    if (ruta === '/logout') {
-      localStorage.removeItem('token')
-      localStorage.removeItem('usuario')
-      navigate('/login')
-      return
-    }
-    navigate(ruta)
+  function salir() {
+    localStorage.removeItem('token')
+    localStorage.removeItem('usuario')
+    navigate('/login')
   }
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      <NavBar enlaces={enlaces} rutaActual={ubicacion.pathname} onNavegar={manejarNavegacion} />
+      <NavBar
+        enlaces={enlaces}
+        rutaActual={ubicacion.pathname}
+        onNavegar={navigate}
+        usuario={usuario}
+        onCerrarSesion={salir}
+      />
       <main className="container my-4 flex-grow-1">{children}</main>
       <Footer onNavegar={navigate} />
     </div>
