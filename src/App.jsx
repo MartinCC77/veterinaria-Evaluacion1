@@ -10,6 +10,7 @@ import NoEncontrada from './pages/NoEncontrada'
 import Login from './pages/Login'
 import Usuarios from './pages/Usuarios'
 import RutaProtegida from './components/RutaProtegida'
+import RegistroApi from './pages/RegistroApi'
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/mis-citas" element={<MisCitas />} />
 
             <Route path="/login" element={<Login />} />
+            <Route path="/registro" element={<RegistroApi />} />
             <Route
               path="/usuarios"
               element={
