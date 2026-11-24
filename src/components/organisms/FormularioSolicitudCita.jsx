@@ -2,6 +2,7 @@ import { useState } from 'react'
 import CampoFormulario from '../molecules/CampoFormulario'
 import SelectorFechaHora from '../molecules/SelectorFechaHora'
 import Boton from '../atoms/Boton'
+import { calcularPrecioCita, formatearPrecio, obtenerPrecioVigente } from '../../utils/precios'
 import {
   validarNombreDueno,
   validarCorreo,
@@ -10,7 +11,6 @@ import {
   validarMotivo,
   validarFecha,
 } from '../../utils/validaciones'
-import { calcularPrecioCita, formatearPrecio } from '../../utils/precios'
 import { fechaHoy } from '../../utils/filtros'
 
 const ESPECIES = [
@@ -20,11 +20,11 @@ const ESPECIES = [
   { valor: 'ave', etiqueta: 'Ave / Otra' },
 ]
 
-export default function FormularioSolicitudCita({ servicios, servicioInicial = '', onEnviar, hoy = fechaHoy() }) {
+export default function FormularioSolicitudCita({ servicios, servicioInicial = '', onEnviar, hoy = fechaHoy(), datosIniciales = {} }) {
 
   const [valores, setValores] = useState({
-    dueno: '',
-    correo: '',
+    dueno: datosIniciales.dueno ?? '',
+    correo: datosIniciales.correo ?? '',
     mascota: '',
     especie: '',
     servicioId: String(servicioInicial),
@@ -42,7 +42,7 @@ export default function FormularioSolicitudCita({ servicios, servicioInicial = '
 
   const servicio = servicios.find((s) => String(s.id) === valores.servicioId)
   const admiteUrgencia = servicio?.categoria === 'Consulta'
-  const precioFinal = servicio ? calcularPrecioCita(servicio.precio, admiteUrgencia && valores.urgencia) : 0
+  const precioFinal = servicio ? calcularPrecioCita(obtenerPrecioVigente(servicio), admiteUrgencia && valores.urgencia) : 0
 
  
   function validar() {
@@ -117,7 +117,7 @@ export default function FormularioSolicitudCita({ servicios, servicioInicial = '
 
       <CampoFormulario id="motivo" etiqueta="Motivo de la consulta" tipo="textarea" valor={valores.motivo} onCambio={cambiar('motivo')} error={errores.motivo} placeholder="Describa brevemente el motivo de la atención" />
 
-      {}
+      
       {admiteUrgencia && (
         <div className="form-check mb-3">
           <input

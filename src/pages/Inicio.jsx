@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router-dom'
 import LayoutPrincipal from '../components/templates/LayoutPrincipal'
 import ListaServicios from '../components/organisms/ListaServicios'
+import ListaCategorias from '../components/organisms/ListaCategorias'
 import Boton from '../components/atoms/Boton'
 import { useServicios } from '../context/ServiciosContext'
 import { useTituloPagina } from '../hooks/useTituloPagina'
+import { contarPorCategoria } from '../utils/filtros'
 
 export default function Inicio() {
   const navigate = useNavigate()
   const { servicios } = useServicios()
-
   useTituloPagina('Inicio')
 
   return (
@@ -22,14 +23,24 @@ export default function Inicio() {
       </section>
 
       <section className="mb-5">
+        <h2 className="text-primary mb-3">Categorías</h2>
+        <ListaCategorias
+          categorias={contarPorCategoria(servicios)}
+          onVer={(nombre) => navigate(`/categorias/${encodeURIComponent(nombre)}`)}
+        />
+      </section>
+
+      <section className="mb-5">
         <h2 className="text-primary mb-3">Nuestros servicios médicos</h2>
-        {}
-        <ListaServicios servicios={servicios.slice(0, 3)} onSolicitar={(s) => navigate(`/solicitar-cita/${s.id}`)} />
+        <ListaServicios
+          servicios={servicios.slice(0, 3)}
+          onSolicitar={(s) => navigate(`/solicitar-cita/${s.id}`)}
+          onVerDetalle={(s) => navigate(`/servicios/${s.id}`)}
+        />
       </section>
 
       <section className="mb-5">
         <h2 className="text-primary mb-3">Conoce nuestras instalaciones</h2>
-        {}
         <div className="ratio ratio-16x9">
           <iframe src="https://www.youtube.com/embed/sksm_mfbdA0" title="Instalaciones Veterinaria San Marcos" allowFullScreen />
         </div>
@@ -38,7 +49,6 @@ export default function Inicio() {
       <section>
         <h2 className="text-primary mb-3">Encuéntranos en Rancagua</h2>
         <p>Atención de lunes a sábado.</p>
-        {}
         <div className="ratio ratio-21x9">
           <iframe
             title="Mapa de la clínica"

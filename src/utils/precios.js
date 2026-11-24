@@ -11,3 +11,14 @@ export function calcularPrecioCita(precioBase, esUrgencia) {
   }
   return esUrgencia ? precioBase + RECARGO_URGENCIA : precioBase
 }
+
+export function obtenerPrecioVigente(servicio) {
+  return servicio.oferta ? servicio.precioOferta : servicio.precio
+}
+
+export function calcularPorcentajeDescuento(servicio) {
+  if (!servicio.oferta) {
+    return 0
+  }
+  return Math.round((1 - servicio.precioOferta / servicio.precio) * 100)
+}

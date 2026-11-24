@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "titulo": "Por qué es importante vacunar a tu mascota",
+    "fecha": "2026-09-15",
+    "resumen": "Las vacunas previenen enfermedades graves y son la base del cuidado preventivo.",
+    "contenido": [
+      "Las vacunas protegen a perros y gatos de enfermedades que pueden ser graves y, en algunos casos, mortales.",
+      "Los cachorros y gatitos necesitan un esquema inicial de varias dosis, y luego refuerzos anuales según lo indique el médico veterinario.",
+      "Antes de vacunar, el profesional revisa el estado de salud de tu mascota. Por eso conviene agendar una consulta y llevar el carnet de vacunas."
+    ]
+  },
+  {
+    "id": 2,
+    "titulo": "Desparasitación: cada cuánto y por qué",
+    "fecha": "2026-09-28",
+    "resumen": "Los parásitos internos y externos afectan la salud de tu mascota y de tu familia.",
+    "contenido": [
+      "Los parásitos pueden causar problemas digestivos, anemia y picazón, y algunos se pueden transmitir a las personas.",
+      "La frecuencia depende de la edad, el peso y el estilo de vida de tu mascota. Tu veterinario te indicará el esquema adecuado.",
+      "Mantener la desparasitación al día es una de las medidas más simples y económicas de prevención."
+    ]
+  },
+  {
+    "id": 3,
+    "titulo": "Cuándo llevar a tu mascota a una consulta de urgencia",
+    "fecha": "2026-10-05",
+    "resumen": "Vómitos persistentes, dificultad para respirar o decaimiento: señales que no deben esperar.",
+    "contenido": [
+      "Hay síntomas que requieren atención rápida: vómitos o diarrea que no ceden, dificultad para respirar, decaimiento marcado o heridas profundas.",
+      "Si ocurre fuera del horario habitual, la consulta de urgencia tiene un recargo de $10.000 sobre el precio base.",
+      "Ante la duda, comunícate con la clínica: te orientaremos sobre si conviene acudir de inmediato."
+    ]
+  }
+]

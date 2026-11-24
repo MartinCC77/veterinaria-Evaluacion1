@@ -62,3 +62,41 @@ export function validarClave(valor) {
   }
   return ''
 }
+
+
+export function validarMensaje(valor) {
+  if (valor.trim().length < 10) {
+    return 'Escribe un mensaje de al menos 10 caracteres.'
+  }
+  return ''
+}
+
+
+export function validarConfirmacionClave(clave, confirmacion) {
+  if (clave !== confirmacion) {
+    return 'Las claves no coinciden.'
+  }
+  return ''
+}
+
+export function validarNumeroPositivo(valor, nombreCampo) {
+  if (String(valor).trim() === '') {
+    return `${nombreCampo} es obligatorio.`
+  }
+  const numero = Number(valor)
+  if (Number.isNaN(numero) || numero <= 0) {
+    return `${nombreCampo} debe ser un número mayor que 0.`
+  }
+  return ''
+}
+
+export function validarPrecioOferta(precioOferta, precio) {
+  const errorNumero = validarNumeroPositivo(precioOferta, 'El precio de oferta')
+  if (errorNumero !== '') {
+    return errorNumero
+  }
+  if (Number(precioOferta) >= Number(precio)) {
+    return 'El precio de oferta debe ser menor que el precio normal.'
+  }
+  return ''
+}

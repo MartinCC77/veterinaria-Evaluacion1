@@ -51,7 +51,7 @@ export function actualizarServicio(id, cambios) {
   return lista.find((s) => s.id === id) ?? null
 }
 
-// DELETE (eliminar): quita el servicio con ese id.
+
 export function eliminarServicio(id) {
   guardar(leer().filter((s) => s.id !== id))
 }
