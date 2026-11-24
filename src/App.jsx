@@ -7,21 +7,32 @@ import SolicitarCita from './pages/SolicitarCita'
 import CitaConfirmada from './pages/CitaConfirmada'
 import MisCitas from './pages/MisCitas'
 import NoEncontrada from './pages/NoEncontrada'
+import Login from './pages/Login'
+import Usuarios from './pages/Usuarios'
+import RutaProtegida from './components/RutaProtegida'
 
 export default function App() {
   return (
     <BrowserRouter>
       <ServiciosProvider>
         <CitasProvider>
-          {}
           <Routes>
             <Route path="/" element={<Inicio />} />
             <Route path="/servicios" element={<Servicios />} />
-            {}
             <Route path="/solicitar-cita/:servicioId?" element={<SolicitarCita />} />
             <Route path="/cita-confirmada/:id" element={<CitaConfirmada />} />
             <Route path="/mis-citas" element={<MisCitas />} />
-            {}
+
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/usuarios"
+              element={
+                <RutaProtegida>
+                  <Usuarios />
+                </RutaProtegida>
+              }
+            />
+
             <Route path="*" element={<NoEncontrada />} />
           </Routes>
         </CitasProvider>
