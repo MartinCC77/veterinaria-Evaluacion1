@@ -1,31 +1,39 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import NavBar from '../organisms/NavBar'
 import Footer from '../organisms/Footer'
-import { useAuth } from '../../context/AuthContext'
-import { esPersonal } from '../../utils/permisos'
 
-const ENLACES = [
+const ENLACES_BASE = [
   { ruta: '/', texto: 'Inicio' },
   { ruta: '/servicios', texto: 'Servicios' },
-  { ruta: '/categorias', texto: 'Categorías' },
-  { ruta: '/ofertas', texto: 'Ofertas' },
-  { ruta: '/blog', texto: 'Blog' },
-  { ruta: '/nosotros', texto: 'Nosotros' },
-  { ruta: '/contacto', texto: 'Contacto' },
   { ruta: '/solicitar-cita', texto: 'Solicitar cita' },
   { ruta: '/mis-citas', texto: 'Mis citas' },
 ]
 
+function leerUsuario() {
+  try {
+    const token = localStorage.getItem('token')
+    const usuario = JSON.parse(localStorage.getItem('usuario') || 'null')
+    return token && usuario ? usuario : null
+  } catch {
+    return null
+  }
+}
+
 export default function LayoutPrincipal({ children }) {
   const navigate = useNavigate()
   const ubicacion = useLocation()
-  const { usuario, cerrarSesion } = useAuth()
 
-  const enlaces = esPersonal(usuario) ? [...ENLACES, { ruta: '/admin', texto: 'Panel' }] : ENLACES
+  // Se vuelve a leer en cada cambio de ruta
+  const usuario = leerUsuario()
+
+  const enlaces = usuario
+    ? [...ENLACES_BASE, { ruta: '/usuarios', texto: 'Usuarios' }]
+    : ENLACES_BASE
 
   function salir() {
-    cerrarSesion()
-    navigate('/')
+    localStorage.removeItem('token')
+    localStorage.removeItem('usuario')
+    navigate('/login')
   }
 
   return (

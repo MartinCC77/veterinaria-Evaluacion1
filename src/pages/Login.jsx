@@ -1,46 +1,58 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import LayoutPrincipal from '../components/templates/LayoutPrincipal'
-import FormularioLogin from '../components/organisms/FormularioLogin'
-import { useAuth } from '../context/AuthContext'
-import { useTituloPagina } from '../hooks/useTituloPagina'
-import { esPersonal } from '../utils/permisos'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import LayoutPrincipal from "../components/templates/LayoutPrincipal";
+import { useTituloPagina } from "../hooks/useTituloPagina";
+import api from "../api";
 
 export default function Login() {
-  const navigate = useNavigate()
-  const { iniciarSesion } = useAuth()
-  const [errorGeneral, setErrorGeneral] = useState('')
-  useTituloPagina('Ingresar')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  useTituloPagina("Iniciar sesión");
 
-  function ingresar({ correo, clave }) {
-    const resultado = iniciarSesion(correo, clave)
-    if (!resultado.ok) {
-      setErrorGeneral(resultado.error)
-      return
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      const res = await api.post("/auth/login", { email, password });
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("usuario", JSON.stringify(res.data.usuario));
+      navigate("/usuarios");
+    } catch (err) {
+      setError(err.response?.data?.mensaje || "No se pudo conectar con el servidor");
     }
-    navigate(esPersonal(resultado.usuario) ? '/admin' : '/')
-  }
+  };
 
   return (
     <LayoutPrincipal>
-      <div className="row justify-content-center">
-        <div className="col-12 col-md-8 col-lg-5">
-          <h1 className="h2 text-primary mb-3">Ingresar</h1>
-          <FormularioLogin onEnviar={ingresar} errorGeneral={errorGeneral} />
-          <p className="mt-3">
-            ¿No tienes cuenta?{' '}
-            <a
-              href="/registro"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate('/registro')
-              }}
-            >
-              Regístrate
-            </a>
-          </p>
-        </div>
+      <div className="mx-auto" style={{ maxWidth: 420 }}>
+        <h1 className="h2 text-primary mb-4 text-center">Iniciar sesión</h1>
+        <form onSubmit={handleLogin}>
+          <div className="mb-3">
+            <label className="form-label">Correo</label>
+            <input
+              type="email"
+              className="form-control"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Contraseña</label>
+            <input
+              type="password"
+              className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          {error && <div className="alert alert-danger">{error}</div>}
+          <button type="submit" className="btn btn-primary w-100">Entrar</button>
+        </form>
       </div>
     </LayoutPrincipal>
-  )
+  );
 }
