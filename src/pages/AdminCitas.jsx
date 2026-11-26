@@ -16,26 +16,44 @@ const ESTADOS = [
 
 export default function AdminCitas() {
   const navigate = useNavigate()
-  const { citas, actualizar } = useCitas()
+  const { citas, cargando, confirmar, reagendar, cancelar } = useCitas()
   const [estado, setEstado] = useState('')
+  const [error, setError] = useState('')
   useTituloPagina('Solicitudes de cita')
 
   const visibles = filtrarCitasPorEstado(citas, estado)
 
+  // Ejecuta la acción y, si la API la rechaza (por ejemplo, horario ocupado), muestra el motivo
+  async function ejecutar(accion) {
+    setError('')
+    const resultado = await accion()
+    if (!resultado.ok) {
+      setError(resultado.error)
+    }
+  }
+
   return (
     <PlantillaAdmin>
       <h1 className="h2 text-primary mb-3">Solicitudes de cita</h1>
+      {error !== '' && (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      )}
       <div className="col-12 col-md-4">
         <CampoFormulario id="filtro-estado" etiqueta="Filtrar por estado" tipo="select" valor={estado} onCambio={setEstado} opciones={ESTADOS} />
       </div>
-      <TablaCitasAdmin
-        citas={visibles}
-        onConfirmar={(c) => actualizar(c.id, { estado: 'confirmada' })}
-        // Proponer otro horario: guarda la fecha y hora nuevas y deja la cita en "reagendada".
-        onReagendar={(c, horario) => actualizar(c.id, { ...horario, estado: 'reagendada' })}
-        onCancelar={(c) => actualizar(c.id, { estado: 'cancelada' })}
-        onVerComprobante={(c) => navigate(`/admin/citas/${c.id}`)}
-      />
+      {cargando ? (
+        <p role="status">Cargando citas...</p>
+      ) : (
+        <TablaCitasAdmin
+          citas={visibles}
+          onConfirmar={(c) => ejecutar(() => confirmar(c.id))}
+          onReagendar={(c, horario) => ejecutar(() => reagendar(c.id, horario))}
+          onCancelar={(c) => ejecutar(() => cancelar(c.id))}
+          onVerComprobante={(c) => navigate(`/admin/citas/${c.id}`)}
+        />
+      )}
     </PlantillaAdmin>
   )
 }

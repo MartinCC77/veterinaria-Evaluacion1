@@ -9,25 +9,31 @@ import { formatearPrecio } from '../utils/precios'
 export default function CitaConfirmada() {
   const navigate = useNavigate()
   const params = useParams()
-  const { citas } = useCitas()
+  const { citas, cargando } = useCitas()
   useTituloPagina('Resultado de la solicitud')
 
+  // Si se recarga la página, las citas tardan un instante en llegar desde la API
+  if (cargando) {
+    return (
+      <LayoutPrincipal>
+        <p role="status">Cargando tu solicitud...</p>
+      </LayoutPrincipal>
+    )
+  }
 
   const cita = citas.find((c) => c.id === Number(params.id))
-
 
   if (!cita) {
     return (
       <LayoutPrincipal>
         <div className="alert alert-danger" role="alert">
           <h1 className="h4">No encontramos tu solicitud</h1>
-          <p className="mb-0">Puede que se haya eliminado o que la dirección esté mal escrita.</p>
+          <p className="mb-0">Puede que no exista o que la dirección esté mal escrita.</p>
         </div>
         <Boton onClick={() => navigate('/solicitar-cita')}>Intentar de nuevo</Boton>
       </LayoutPrincipal>
     )
   }
-
 
   return (
     <LayoutPrincipal>

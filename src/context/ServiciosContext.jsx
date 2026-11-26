@@ -1,29 +1,66 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import * as servicioService from '../services/servicioService'
+import { servicioRequestDto } from '../dto/servicio.dto'
+import { obtenerMensajeError } from '../utils/errores'
 
 const ServiciosContext = createContext(null)
 
 export function ServiciosProvider({ children }) {
-  const [servicios, setServicios] = useState(() => servicioService.listarServicios())
+  const [servicios, setServicios] = useState([])
+  const [cargando, setCargando] = useState(true)
+  const [error, setError] = useState('')
 
-
-  function crear(datos) {
-    servicioService.crearServicio(datos)
-    setServicios(servicioService.listarServicios())
+  async function recargar() {
+    try {
+      setServicios(await servicioService.listarServicios())
+      setError('')
+    } catch (e) {
+      setError(obtenerMensajeError(e))
+    } finally {
+      setCargando(false)
+    }
   }
 
+  useEffect(() => {
+    recargar()
+  }, [])
+
+  // Ejecuta una operación de la API, recarga la lista y devuelve { ok } o { ok: false, error }
+  async function ejecutar(operacion) {
+    try {
+      await operacion()
+      await recargar()
+      return { ok: true }
+    } catch (e) {
+      return { ok: false, error: obtenerMensajeError(e) }
+    }
+  }
+
+  function crear(datos) {
+    return ejecutar(() => servicioService.crearServicio(servicioRequestDto(datos)))
+  }
+
+  // La API pide el servicio completo, así que se mezclan los cambios con los datos actuales.
+  // Así sirve tanto para editar el formulario como para cambiar solo la categoría.
   function actualizar(id, cambios) {
-    servicioService.actualizarServicio(id, cambios)
-    setServicios(servicioService.listarServicios())
+    const actual = servicios.find((s) => s.id === id)
+    return ejecutar(() => servicioService.actualizarServicio(id, servicioRequestDto({ ...actual, ...cambios })))
   }
 
   function eliminar(id) {
-    servicioService.eliminarServicio(id)
-    setServicios(servicioService.listarServicios())
+    return ejecutar(() => servicioService.eliminarServicio(id))
+  }
+
+  if (cargando) {
+    return (
+      <div className="container py-5" role="status">
+        Cargando servicios...
+      </div>
+    )
   }
 
   return (
-    <ServiciosContext.Provider value={{ servicios, crear, actualizar, eliminar }}>
+    <ServiciosContext.Provider value={{ servicios, error, recargar, crear, actualizar, eliminar }}>
       {children}
     </ServiciosContext.Provider>
   )

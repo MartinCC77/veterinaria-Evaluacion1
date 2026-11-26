@@ -1,57 +1,28 @@
-import serviciosIniciales from '../data/servicios.json'
+import { api } from './api'
 
-const CLAVE = 'servicios'
+// Una función por operación de la API. Ver el catálogo es público; modificarlo exige ser administrador
 
-function leer() {
-
-  const guardado = localStorage.getItem(CLAVE)
-
-
-  if (guardado === null) {
-
-    localStorage.setItem(CLAVE, JSON.stringify(serviciosIniciales))
-
-    return [...serviciosIniciales]
-  }
-
-  return JSON.parse(guardado)
+export async function listarServicios() {
+  const respuesta = await api.get('/servicios')
+  return respuesta.data
 }
 
-
-function guardar(lista) {
-  localStorage.setItem(CLAVE, JSON.stringify(lista))
+export async function obtenerServicio(id) {
+  const respuesta = await api.get(`/servicios/${id}`)
+  return respuesta.data
 }
 
-
-export function listarServicios() {
-  return leer()
+export async function crearServicio(dto) {
+  const respuesta = await api.post('/servicios', dto)
+  return respuesta.data
 }
 
-
-export function obtenerServicio(id) {
-  return leer().find((s) => s.id === id) ?? null
+export async function actualizarServicio(id, dto) {
+  const respuesta = await api.put(`/servicios/${id}`, dto)
+  return respuesta.data
 }
 
-
-export function crearServicio(datos) {
-  const lista = leer()
-
-  const nuevoId = Math.max(0, ...lista.map((s) => s.id)) + 1
-
-  const nuevo = { ...datos, id: nuevoId }
-  guardar([...lista, nuevo])
-  return nuevo
-}
-
-
-export function actualizarServicio(id, cambios) {
-
-  const lista = leer().map((s) => (s.id === id ? { ...s, ...cambios } : s))
-  guardar(lista)
-  return lista.find((s) => s.id === id) ?? null
-}
-
-
-export function eliminarServicio(id) {
-  guardar(leer().filter((s) => s.id !== id))
+// La API responde 204 sin cuerpo
+export async function eliminarServicio(id) {
+  await api.delete(`/servicios/${id}`)
 }
