@@ -7,11 +7,18 @@ import { useTituloPagina } from '../hooks/useTituloPagina'
 export default function AdminPerfil() {
   const { usuario, actualizarPerfil } = useAuth()
   const [guardado, setGuardado] = useState(false)
+  const [error, setError] = useState('')
   useTituloPagina('Perfil')
 
-  function guardar(cambios) {
-    actualizarPerfil(cambios)
-    setGuardado(true) 
+  async function guardar(cambios) {
+    setGuardado(false)
+    setError('')
+    const resultado = await actualizarPerfil(cambios)
+    if (resultado.ok) {
+      setGuardado(true)
+    } else {
+      setError(resultado.error)
+    }
   }
 
   return (
@@ -20,6 +27,11 @@ export default function AdminPerfil() {
       {guardado && (
         <div className="alert alert-success" role="status">
           Tus cambios se guardaron.
+        </div>
+      )}
+      {error !== '' && (
+        <div className="alert alert-danger" role="alert">
+          {error}
         </div>
       )}
       {usuario && <FormularioPerfil usuario={usuario} onEnviar={guardar} />}

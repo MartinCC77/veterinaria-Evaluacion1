@@ -10,13 +10,21 @@ import { useTituloPagina } from '../hooks/useTituloPagina'
 export default function AdminUsuarioForm() {
   const navigate = useNavigate()
   const params = useParams()
-  const { usuarios, crear, actualizar } = useUsuarios()
+  const { usuarios, cargando, crear, actualizar } = useUsuarios()
   const { usuario: sesion } = useAuth()
   const [errorGeneral, setErrorGeneral] = useState('')
   useTituloPagina('Formulario de usuario')
 
   const editando = params.id !== undefined
   const usuario = editando ? usuarios.find((u) => u.id === Number(params.id)) : null
+
+  if (editando && cargando) {
+    return (
+      <PlantillaAdmin soloAdministrador>
+        <p role="status">Cargando usuario...</p>
+      </PlantillaAdmin>
+    )
+  }
 
   if (editando && !usuario) {
     return (
@@ -40,10 +48,11 @@ export default function AdminUsuarioForm() {
     )
   }
 
-  function guardar(datos) {
-    const resultado = editando ? actualizar(usuario.id, datos) : crear(datos)
+  async function guardar(datos) {
+    setErrorGeneral('')
+    const resultado = editando ? await actualizar(usuario.id, datos) : await crear(datos)
     if (!resultado.ok) {
-      setErrorGeneral(resultado.error) 
+      setErrorGeneral(resultado.error)
       return
     }
     navigate('/admin/usuarios')

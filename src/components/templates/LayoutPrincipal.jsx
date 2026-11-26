@@ -21,7 +21,8 @@ export default function LayoutPrincipal({ children }) {
   const ubicacion = useLocation()
   const { usuario, cerrarSesion } = useAuth()
 
-  const enlaces = esPersonal(usuario) ? [...ENLACES, { ruta: '/admin', texto: 'Panel' }] : ENLACES
+  const visibles = usuario ? ENLACES : ENLACES.filter((e) => e.ruta !== '/mis-citas')
+  const enlaces = esPersonal(usuario) ? [...visibles, { ruta: '/admin', texto: 'Panel' }] : visibles
 
   function salir() {
     cerrarSesion()

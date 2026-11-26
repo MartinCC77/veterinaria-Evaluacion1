@@ -4,6 +4,7 @@ import { UsuariosProvider } from './context/UsuariosContext'
 import { CategoriasProvider } from './context/CategoriasContext'
 import { ServiciosProvider } from './context/ServiciosContext'
 import { CitasProvider } from './context/CitasContext'
+import RutaProtegida from './components/templates/RutaProtegida'
 import Inicio from './pages/Inicio'
 import Servicios from './pages/Servicios'
 import DetalleServicio from './pages/DetalleServicio'
@@ -33,6 +34,15 @@ import AdminUsuarioForm from './pages/AdminUsuarioForm'
 import AdminUsuarioHistorial from './pages/AdminUsuarioHistorial'
 import NoEncontrada from './pages/NoEncontrada'
 
+// Roles que pueden entrar a cada grupo de rutas
+const PERSONAL = ['administrador', 'recepcionista']
+const SOLO_ADMIN = ['administrador']
+
+// Atajo: exige sesión y, si se indican roles, que el usuario tenga uno de ellos
+function protegida(pagina, roles = null) {
+  return <RutaProtegida roles={roles}>{pagina}</RutaProtegida>
+}
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -42,6 +52,7 @@ export default function App() {
             <ServiciosProvider>
               <CitasProvider>
                 <Routes>
+                  {/* Rutas públicas */}
                   <Route path="/" element={<Inicio />} />
                   <Route path="/servicios" element={<Servicios />} />
                   <Route path="/servicios/:id" element={<DetalleServicio />} />
@@ -52,27 +63,32 @@ export default function App() {
                   <Route path="/blog/:id" element={<DetalleBlog />} />
                   <Route path="/nosotros" element={<Nosotros />} />
                   <Route path="/contacto" element={<Contacto />} />
-                  {/* El "?" hace opcional el parámetro: sirve para /solicitar-cita y /solicitar-cita/2 */}
-                  <Route path="/solicitar-cita/:servicioId?" element={<SolicitarCita />} />
-                  <Route path="/cita-confirmada/:id" element={<CitaConfirmada />} />
-                  <Route path="/mis-citas" element={<MisCitas />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/registro" element={<Registro />} />
-                  {/* Panel de administración */}
-                  <Route path="/admin" element={<AdminDashboard />} />
-                  <Route path="/admin/servicios" element={<AdminServicios />} />
-                  <Route path="/admin/servicios/nuevo" element={<AdminServicioForm />} />
-                  <Route path="/admin/servicios/:id/editar" element={<AdminServicioForm />} />
-                  <Route path="/admin/citas" element={<AdminCitas />} />
-                  <Route path="/admin/citas/:id" element={<AdminCita />} />
-                  <Route path="/admin/criticos" element={<AdminCriticos />} />
-                  <Route path="/admin/categorias" element={<AdminCategorias />} />
-                  <Route path="/admin/usuarios" element={<AdminUsuarios />} />
-                  <Route path="/admin/usuarios/nuevo" element={<AdminUsuarioForm />} />
-                  <Route path="/admin/usuarios/:id/editar" element={<AdminUsuarioForm />} />
-                  <Route path="/admin/usuarios/:id/historial" element={<AdminUsuarioHistorial />} />
-                  <Route path="/admin/reportes" element={<AdminReportes />} />
-                  <Route path="/admin/perfil" element={<AdminPerfil />} />
+
+                  {/* Rutas que exigen sesión (cualquier rol) */}
+                  <Route path="/solicitar-cita/:servicioId?" element={protegida(<SolicitarCita />)} />
+                  <Route path="/cita-confirmada/:id" element={protegida(<CitaConfirmada />)} />
+                  <Route path="/mis-citas" element={protegida(<MisCitas />)} />
+
+                  {/* Panel: administrador y recepcionista */}
+                  <Route path="/admin" element={protegida(<AdminDashboard />, PERSONAL)} />
+                  <Route path="/admin/citas" element={protegida(<AdminCitas />, PERSONAL)} />
+                  <Route path="/admin/citas/:id" element={protegida(<AdminCita />, PERSONAL)} />
+                  <Route path="/admin/criticos" element={protegida(<AdminCriticos />, PERSONAL)} />
+                  <Route path="/admin/reportes" element={protegida(<AdminReportes />, PERSONAL)} />
+                  <Route path="/admin/perfil" element={protegida(<AdminPerfil />, PERSONAL)} />
+
+                  {/* Panel: solo administrador */}
+                  <Route path="/admin/servicios" element={protegida(<AdminServicios />, SOLO_ADMIN)} />
+                  <Route path="/admin/servicios/nuevo" element={protegida(<AdminServicioForm />, SOLO_ADMIN)} />
+                  <Route path="/admin/servicios/:id/editar" element={protegida(<AdminServicioForm />, SOLO_ADMIN)} />
+                  <Route path="/admin/categorias" element={protegida(<AdminCategorias />, SOLO_ADMIN)} />
+                  <Route path="/admin/usuarios" element={protegida(<AdminUsuarios />, SOLO_ADMIN)} />
+                  <Route path="/admin/usuarios/nuevo" element={protegida(<AdminUsuarioForm />, SOLO_ADMIN)} />
+                  <Route path="/admin/usuarios/:id/editar" element={protegida(<AdminUsuarioForm />, SOLO_ADMIN)} />
+                  <Route path="/admin/usuarios/:id/historial" element={protegida(<AdminUsuarioHistorial />, SOLO_ADMIN)} />
+
                   {/* "*" coincide con cualquier dirección que no calce con las demás */}
                   <Route path="*" element={<NoEncontrada />} />
                 </Routes>

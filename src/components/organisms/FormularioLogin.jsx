@@ -3,7 +3,7 @@ import CampoFormulario from '../molecules/CampoFormulario'
 import Boton from '../atoms/Boton'
 import { validarCorreo, validarObligatorio } from '../../utils/validaciones'
 
-export default function FormularioLogin({ onEnviar, errorGeneral = '' }) {
+export default function FormularioLogin({ onEnviar, errorGeneral = '', cargando = false }) {
   const [valores, setValores] = useState({ correo: '', clave: '' })
   const [errores, setErrores] = useState({})
 
@@ -32,8 +32,8 @@ export default function FormularioLogin({ onEnviar, errorGeneral = '' }) {
       )}
       <CampoFormulario id="login-correo" etiqueta="Correo electrónico" tipo="email" valor={valores.correo} onCambio={cambiar('correo')} error={errores.correo} />
       <CampoFormulario id="login-clave" etiqueta="Clave" tipo="password" valor={valores.clave} onCambio={cambiar('clave')} error={errores.clave} />
-      <Boton tipo="submit" bloque>
-        Ingresar
+      <Boton tipo="submit" bloque deshabilitado={cargando}>
+        {cargando ? 'Ingresando...' : 'Ingresar'}
       </Boton>
     </form>
   )

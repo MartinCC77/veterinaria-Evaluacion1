@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import LayoutPrincipal from '../components/templates/LayoutPrincipal'
 import FormularioLogin from '../components/organisms/FormularioLogin'
 import { useAuth } from '../context/AuthContext'
@@ -8,17 +8,24 @@ import { esPersonal } from '../utils/permisos'
 
 export default function Login() {
   const navigate = useNavigate()
+  const ubicacion = useLocation()
   const { iniciarSesion } = useAuth()
   const [errorGeneral, setErrorGeneral] = useState('')
+  const [cargando, setCargando] = useState(false)
   useTituloPagina('Ingresar')
 
-  function ingresar({ correo, clave }) {
-    const resultado = iniciarSesion(correo, clave)
+  async function ingresar({ correo, clave }) {
+    setCargando(true)
+    setErrorGeneral('')
+    const resultado = await iniciarSesion(correo, clave)
+    setCargando(false)
     if (!resultado.ok) {
       setErrorGeneral(resultado.error)
       return
     }
-    navigate(esPersonal(resultado.usuario) ? '/admin' : '/')
+    // Si venía de una ruta protegida vuelve a ella; si no, va según su rol
+    const destino = ubicacion.state?.desde ?? (esPersonal(resultado.usuario) ? '/admin' : '/')
+    navigate(destino, { replace: true })
   }
 
   return (
@@ -26,7 +33,7 @@ export default function Login() {
       <div className="row justify-content-center">
         <div className="col-12 col-md-8 col-lg-5">
           <h1 className="h2 text-primary mb-3">Ingresar</h1>
-          <FormularioLogin onEnviar={ingresar} errorGeneral={errorGeneral} />
+          <FormularioLogin onEnviar={ingresar} errorGeneral={errorGeneral} cargando={cargando} />
           <p className="mt-3">
             ¿No tienes cuenta?{' '}
             <a

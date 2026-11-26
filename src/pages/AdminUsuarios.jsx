@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PlantillaAdmin from '../components/templates/PlantillaAdmin'
 import TablaUsuariosAdmin from '../components/organisms/TablaUsuariosAdmin'
@@ -9,13 +9,22 @@ import { useTituloPagina } from '../hooks/useTituloPagina'
 
 export default function AdminUsuarios() {
   const navigate = useNavigate()
-  const { usuarios, recargar, eliminar } = useUsuarios()
+  const { usuarios, cargando, recargar, eliminar } = useUsuarios()
   const { usuario } = useAuth()
+  const [error, setError] = useState('')
   useTituloPagina('Usuarios (admin)')
 
   useEffect(() => {
     recargar()
   }, [])
+
+  async function borrar(u) {
+    setError('')
+    const resultado = await eliminar(u.id)
+    if (!resultado.ok) {
+      setError(resultado.error)
+    }
+  }
 
   return (
     <PlantillaAdmin soloAdministrador>
@@ -23,13 +32,22 @@ export default function AdminUsuarios() {
         <h1 className="h2 text-primary mb-0">Usuarios</h1>
         <Boton onClick={() => navigate('/admin/usuarios/nuevo')}>Nuevo usuario</Boton>
       </div>
-      <TablaUsuariosAdmin
-        usuarios={usuarios}
-        usuarioActualId={usuario?.id}
-        onEditar={(u) => navigate(`/admin/usuarios/${u.id}/editar`)}
-        onHistorial={(u) => navigate(`/admin/usuarios/${u.id}/historial`)}
-        onEliminar={(u) => eliminar(u.id)}
-      />
+      {error !== '' && (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      )}
+      {cargando ? (
+        <p role="status">Cargando usuarios...</p>
+      ) : (
+        <TablaUsuariosAdmin
+          usuarios={usuarios}
+          usuarioActualId={usuario?.id}
+          onEditar={(u) => navigate(`/admin/usuarios/${u.id}/editar`)}
+          onHistorial={(u) => navigate(`/admin/usuarios/${u.id}/historial`)}
+          onEliminar={borrar}
+        />
+      )}
     </PlantillaAdmin>
   )
 }
